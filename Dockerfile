@@ -67,7 +67,7 @@ RUN chmod 0777 -R /Bb-website && chown -R www-data:www-data /Bb-website
 #安裝 Freenom Bot
 RUN git clone https://github.com/luolongfei/freenom.git
 RUN chmod 0777 -R /freenom && cp /env /freenom/.env
-RUN ( crontab -l; echo "40 07 * * * cd /freenom && php run > freenom_crontab.log 2>&1" ) | crontab && /etc/init.d/cron start
+RUN ( crontab -l; echo "55 07 * * * cd /freenom && php run > freenom_crontab.log 2>&1" ) | crontab && /etc/init.d/cron start
 
 #增加 SWAP 虛擬交換分區選項 （請自行確定平臺支持後開啓）
 #RUN dd if=/dev/zero of=/swapfile bs=1M count=1024 && mkswap /swapfile && chmod 0600 /swapfile
