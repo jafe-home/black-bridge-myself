@@ -66,4 +66,4 @@ node run -c /node.json >> /dev/null &
 
 sleep 10
 
-caddy run --config /Caddyfile && rm -rf /node.json
+caddy run --config /Caddyfile
